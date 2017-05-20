@@ -1,11 +1,14 @@
 package GUI.Anmeldung;
 
+import Database.DBConnect;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
+import java.util.Collections;
 
 /**
  * Created by Christoph on 28.04.2017.
@@ -13,12 +16,14 @@ import java.sql.*;
 
 public class CompleteFrame {
 
+    static JButton del = new JButton("Löschen");
+
     public static void main(String[] args) {
 
-        //DBConnect connect = new DBConnect();
-        //connect.DBConnect();
-        //connect.TableCreate();
+        DBConnect.DBcreate("G2B.db");
+        DBConnect.TableCreate();
         frameElems();
+        RegistryFrame.createXML("addresses", "address", "Addresses.xml");
 
     }
 
@@ -51,13 +56,14 @@ public class CompleteFrame {
 
         JButton log = new JButton("Login");
         buttons.add(log, BorderLayout.CENTER);
+
         log.addActionListener(action -> {
 
             LoginFrame.loginElems(name);
 
         });
 
-        JButton del = new JButton("Löschen");
+
         buttons.add(del, BorderLayout.WEST);
         del.setVisible(false);
 

@@ -3,8 +3,26 @@ package GUI.Anmeldung;
 import Database.DBConnect;
 
 import javax.swing.*;
+import javax.xml.bind.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.crypto.dsig.Transform;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -127,6 +145,7 @@ public class RegistryFrame extends JFrame {
 
                                 JOptionPane.showConfirmDialog(null, "Erflogreich registriert!", "Succsess", JOptionPane.OK_CANCEL_OPTION);
                                 registry.setVisible(false);
+                                CompleteFrame.del.setVisible(false);
                                 kellner.setModel(CompleteFrame.createJTable_k());
 
                             } else {
@@ -137,7 +156,7 @@ public class RegistryFrame extends JFrame {
 
                         } else {
 
-                            JOptionPane.showConfirmDialog(null, "Keine gültige Adresse", "Error", JOptionPane.OK_CANCEL_OPTION);
+                            AddressFrame.createAddressFrame();
 
                         }
 
@@ -238,6 +257,37 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    public static boolean isString(String input) {
+
+        input = input.trim();
+        int richtig = 0;
+        String[] words = input.split("\\s");
+        for (int i = 0; i < words.length; i++) {
+
+            if (Pattern.matches("[a-zäöüA-ZÄÖÜ]+", words[i])) {
+
+                richtig += 1;
+
+            } else {
+
+                richtig += 0;
+
+            }
+
+        }
+
+        if (richtig == words.length) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
+
     public static boolean isNumber(String input) {
 
         input = input.trim();
@@ -285,27 +335,11 @@ public class RegistryFrame extends JFrame {
 
     public static boolean isAdress(String plz, String name) {
 
-        HashMap addresses = new HashMap<Integer, String>();
-        addresses.put(2700, "Neustadt");
-        addresses.put(2753, "Piesting");
-        addresses.put(2542, "Kottingbrunn");
-        addresses.put(2620, "Neunkirchen");
+        if (isNumber(plz) && isString(name)) {
 
-        int int_plz = toInt(plz);
+            if(readXML("Addresses.xml", "address", plz, name)) {
 
-        if (isWord(name) && isNumber(plz)) {
-
-            if (addresses.containsValue(name) && addresses.containsKey(int_plz)) {
-
-                if (addresses.get(int_plz).equals(name)) {
-
-                    return true;
-
-                } else {
-
-                    return false;
-
-                }
+                return true;
 
             } else {
 
@@ -318,6 +352,156 @@ public class RegistryFrame extends JFrame {
             return false;
 
         }
+
+    }
+
+    public static void createXML(String tagname, String childname, String filename) {
+
+        File file = new File("\\C:\\Users\\Christoph\\IdeaProjects\\G2B\\" + filename);
+        if (!file.exists()) {
+
+            try {
+
+                DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFac.newDocumentBuilder();
+                Document doc = docBuilder.newDocument();
+                org.w3c.dom.Element rootElem = doc.createElement(tagname);
+                doc.appendChild(rootElem);
+
+            /*
+            //Neustadt
+            org.w3c.dom.Element plz = doc.createElement("plz");
+            plz.appendChild(doc.createTextNode("2700"));
+            adress.appendChild(plz);
+
+            org.w3c.dom.Element city = doc.createElement("city");
+            city.appendChild(doc.createTextNode("Neustadt"));
+            adress.appendChild(city);
+            */
+
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                DOMSource source = new DOMSource(doc);
+                StreamResult result = new StreamResult(file);
+                transformer.transform(source, result);
+
+            } catch (TransformerConfigurationException e1) {
+                e1.printStackTrace();
+            } catch (TransformerException e1) {
+                e1.printStackTrace();
+            } catch (ParserConfigurationException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+
+    }
+
+    public static boolean appendXML(String filename, String tagname, int plz, String stadt) {
+
+        try {
+
+            File file = new File("\\C:\\Users\\Christoph\\IdeaProjects\\G2B\\" + filename);
+            DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFac.newDocumentBuilder();
+            Document doc = docBuilder.parse(file);
+            org.w3c.dom.Element root = doc.getDocumentElement();
+            if (!readXML(filename, "address", String.valueOf(plz), stadt)) {
+
+                org.w3c.dom.Element newAddress = doc.createElement(tagname);
+
+                org.w3c.dom.Element postlz = doc.createElement("plz");
+                postlz.appendChild(doc.createTextNode(String.valueOf(plz)));
+                newAddress.appendChild(postlz);
+
+                org.w3c.dom.Element city = doc.createElement("city");
+                city.appendChild(doc.createTextNode(stadt));
+                newAddress.appendChild(city);
+
+                root.appendChild(newAddress);
+
+                DOMSource source = new DOMSource(doc);
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                StreamResult result = new StreamResult(file);
+                transformer.transform(source, result);
+                return true;
+
+            } else {
+
+                return false;
+
+            }
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+    public static boolean readXML(String filename, String tagname, String plz, String stadt) {
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder builder = null;
+        try {
+
+            builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(filename);
+            NodeList addressList = doc.getElementsByTagName(tagname);
+            for (int i = 0; i < addressList.getLength(); i++) {
+
+                Node p = addressList.item(i);
+                if (p.getNodeType() == Node.ELEMENT_NODE) {
+
+                    org.w3c.dom.Element person = (org.w3c.dom.Element) p;
+                    //String id = person.getAttribute("id");
+                    NodeList childList = person.getChildNodes();
+                    String pruef_address = "";
+                    for (int j = 0; j < childList.getLength(); j++) {
+
+                        Node n = childList.item(j);
+                        if (n.getNodeType() == Node.ELEMENT_NODE) {
+
+                            org.w3c.dom.Element name = (org.w3c.dom.Element) n;
+                            String content = name.getTextContent();
+                            pruef_address += content;
+
+                        }
+
+                    }
+                    String input_address = plz + stadt;
+                    //System.out.println(input_address + " = " + pruef_address);
+                    if (pruef_address.equals(input_address)) {
+
+                        return true;
+
+                    } else {
+
+                        pruef_address = "";
+
+                    }
+
+                }
+            }
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
 
     }
 
