@@ -36,8 +36,8 @@ public class CompleteFrame {
         comp.setLayout(new BorderLayout());
         comp.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JPanel buttons = new JPanel(new BorderLayout());
-        comp.add(buttons, BorderLayout.NORTH);
+        JPanel top = new JPanel(new BorderLayout());
+        comp.add(top, BorderLayout.NORTH);
 
         JPanel ausgabe = new JPanel(new BorderLayout());
         JTable kellner = new JTable();
@@ -50,12 +50,12 @@ public class CompleteFrame {
         kellner.getTableHeader().setReorderingAllowed(false);
         kellner.setModel(createJTable_k());
 
-
+        JPanel bottom = new JPanel(new BorderLayout());
         JLabel name = new JLabel("");
-        comp.add(name, BorderLayout.SOUTH);
+        bottom.add(name, BorderLayout.WEST);
 
         JButton log = new JButton("Login");
-        buttons.add(log, BorderLayout.CENTER);
+        top.add(log, BorderLayout.CENTER);
 
         log.addActionListener(action -> {
 
@@ -64,7 +64,7 @@ public class CompleteFrame {
         });
 
 
-        buttons.add(del, BorderLayout.WEST);
+        top.add(del, BorderLayout.WEST);
         del.setVisible(false);
 
         del.addActionListener(action -> {
@@ -109,13 +109,32 @@ public class CompleteFrame {
         });
 
         JButton reg = new JButton("Registrieren");
-        buttons.add(reg, BorderLayout.EAST);
+        top.add(reg, BorderLayout.EAST);
         reg.addActionListener(action -> {
 
             RegistryFrame.registryElems(kellner);
 
         });
 
+        JButton logout = new JButton("Logout");
+        bottom.add(logout, BorderLayout.EAST);
+
+        logout.addActionListener(action -> {
+
+            if (LoginFrame.loged_in.length() > 1) {
+
+                JOptionPane.showConfirmDialog(null,"ausgelogged", "Information", JOptionPane.OK_CANCEL_OPTION);
+                LoginFrame.loged_in = "";
+                name.setText("");
+
+            } else {
+
+                JOptionPane.showConfirmDialog(null,"Niemand ist angemeldet", "Information", JOptionPane.OK_CANCEL_OPTION);
+
+            }
+
+        });
+        comp.add(bottom, BorderLayout.SOUTH);
         comp.setVisible(true);
 
     }
