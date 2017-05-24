@@ -151,7 +151,6 @@ public class LoginFrame {
 
                                         while (rs_log.next()) {
 
-
                                             JOptionPane.showConfirmDialog(null, "Herzlich Willkommen Herr " +
                                                         rs_log.getString("fname"), "Gute dize", JOptionPane.OK_CANCEL_OPTION);
                                             name.setText("Herr " + rs_log.getString("fname") + " ist eingelogged!");
