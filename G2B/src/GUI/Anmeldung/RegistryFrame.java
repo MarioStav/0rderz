@@ -505,6 +505,70 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    /*
+    public static boolean compairXML(String filename, String tagname, String plz, String stadt) {
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder builder = null;
+        try {
+
+            builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(filename);
+            NodeList addressList = doc.getElementsByTagName(tagname);
+            for (int i = 0; i < addressList.getLength(); i++) {
+
+                Node p = addressList.item(i);
+                if (p.getNodeType() == Node.ELEMENT_NODE) {
+
+                    org.w3c.dom.Element person = (org.w3c.dom.Element) p;
+                    //String id = person.getAttribute("id");
+                    NodeList childList = person.getChildNodes();
+                    for (int j = 0; j < childList.getLength(); j++) {
+
+                        Node n = childList.item(j);
+                        if (n.getNodeType() == Node.ELEMENT_NODE) {
+
+                            org.w3c.dom.Element name = (org.w3c.dom.Element) n;
+                            if (plz.contains(name.toString())) {
+
+                                System.out.println("test");
+
+                            }
+
+                            //String content = name.getTextContent();
+                            //pruef_address += content;
+
+                        }
+
+                    }
+                    String input_address = plz + stadt;
+                    //System.out.println(input_address + " = " + pruef_address);
+                    //if (pruef_address.equals(input_address)) {
+
+                        //return true;
+
+                    //} else {
+
+                      //  pruef_address = "";
+
+                    //}
+
+                }
+            }
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+    */
+
 }
 
 
