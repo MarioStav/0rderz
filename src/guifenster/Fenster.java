@@ -1,7 +1,12 @@
+//"jdbc:sqlite:C:/Users/Mario/IdeaProjects/G2B/db";
+
 package guifenster;
 
 import about.About;
+import best.OrdersFrame;
+import database.DBConnect;
 import guiAnmeldung.CompleteFrame;
+import guiAnmeldung.RegistryFrame;
 
 import java.awt.*;
 import javax.swing.*;
@@ -12,14 +17,17 @@ import javax.swing.event.MenuListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import static java.awt.Font.*;
 
-public class Fenster extends JFrame implements MenuBarSettings{
+public class Fenster extends JFrame implements MenuBarSettings {
 
+    private About about = new About();
+    private CompleteFrame completeFrame = new CompleteFrame();
+    private OrdersFrame ordersFrame = new OrdersFrame();
     private Font font = new Font("LucidaSans", ITALIC, 20);
     private JMenuBar jMenuBar = new JMenuBar();
     private boolean boolConstant = true;
-    //variables created by the GUI Designer
     private JPanel structurePanel = new JPanel();
     private JPanel smokerPanel = new JPanel();
     private JButton table7 = new JButton();
@@ -42,7 +50,7 @@ public class Fenster extends JFrame implements MenuBarSettings{
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setSize(1000, 800);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         this.setResizable(false);
         this.getContentPane().setLayout(new BorderLayout());
         this.addMenu("Aktuelle Bestellungen");
@@ -53,7 +61,7 @@ public class Fenster extends JFrame implements MenuBarSettings{
         this.setVisible(true);
     }
 
-    public void setMainStructure(){
+    public void setMainStructure() {
 
         //Made with the GUI Designer
 
@@ -96,7 +104,7 @@ public class Fenster extends JFrame implements MenuBarSettings{
         });
 
         smokers.setText("Raucher Bereich");
-        smokers.setSize(new Dimension(20,20));
+        smokers.setSize(new Dimension(20, 20));
         smokers.setFont(this.font);
         smokers.setForeground(Color.WHITE);
 
@@ -186,7 +194,7 @@ public class Fenster extends JFrame implements MenuBarSettings{
         });
 
         nonSmokers.setText("Nicht-Raucher Bereich");
-        nonSmokers.setSize(new Dimension(20,20));
+        nonSmokers.setSize(new Dimension(20, 20));
         nonSmokers.setFont(this.font);
         nonSmokers.setForeground(Color.WHITE);
 
@@ -280,39 +288,38 @@ public class Fenster extends JFrame implements MenuBarSettings{
         pack();
     }
 
-    public void initDia(JButton jb){
+    public void initDia(JButton jb) {
         //method to initialize the dialog frame for the specific button
         String s = jb.getText();
-        int i = Character.getNumericValue(s.charAt(s.length()-1));
-        if ((jb != table11)&&(jb != table10)){
+        int i = Character.getNumericValue(s.charAt(s.length() - 1));
+        if ((jb != table11) && (jb != table10)) {
             Dia dia = new Dia(i);
-        }else{
-            if (jb == table11){
+        } else {
+            if (jb == table11) {
                 Dia dia = new Dia(11);
-            }else if (jb == table10){
-                Dia dia = new Dia (10);
+            } else if (jb == table10) {
+                Dia dia = new Dia(10);
             }
         }
     }
 
-    public void addMenu (String s){
+    public void addMenu(String s) {
         //Adds a new Menu from the right side
         JMenu menu = new JMenu(s);
         menu.setHorizontalTextPosition(SwingConstants.RIGHT);
         menu.setFont(this.font);
         Border bo = new LineBorder(Color.LIGHT_GRAY);
         menu.setBorder(bo);
-        if (this.boolConstant){
+        if (this.boolConstant) {
             this.jMenuBar.add(Box.createGlue());
             this.boolConstant = false;
         }
-        if (s == "Anmelden"){
+
+        if (s == "Anmelden") {
             menu.addMenuListener(new MenuListener() {
                 @Override
                 public void menuSelected(MenuEvent e) {
-                    CompleteFrame cf = new CompleteFrame();
-                    String[] arg = new String[] {};
-                    cf.main(arg);
+                    completeFrame.frameElems();
                 }
 
                 @Override
@@ -327,12 +334,11 @@ public class Fenster extends JFrame implements MenuBarSettings{
             });
         }
 
-        if(s=="About"){
+        if (s == "About") {
             menu.addMenuListener(new MenuListener() {
                 @Override
                 public void menuSelected(MenuEvent e) {
-                    About about = new About();
-                    String[] arg = new String[] {};
+                    String[] arg = new String[]{};
                     about.main(arg);
                 }
 
@@ -348,11 +354,32 @@ public class Fenster extends JFrame implements MenuBarSettings{
             });
         }
 
+        if (s == "Aktuelle Bestellungen") {
+            menu.addMenuListener(new MenuListener() {
+                @Override
+                public void menuSelected(MenuEvent e) {
+                    ordersFrame.frameElems();
+                }
+
+                @Override
+                public void menuDeselected(MenuEvent e) {
+
+                }
+
+                @Override
+                public void menuCanceled(MenuEvent e) {
+
+                }
+            });
+        }
         this.jMenuBar.add(menu);
     }
 
     public static void main(String[] args) {
-        Fenster f = new Fenster();
+        Fenster fenster = new Fenster();
+        DBConnect.DBcreate("G2B.db");
+        DBConnect.TableCreate();
+        RegistryFrame.createXML("addresses", "address", "Addresses.xml");
     }
 }
 
