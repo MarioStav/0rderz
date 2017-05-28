@@ -97,7 +97,7 @@ public class OrdersFrame {
     }
 
     public static DefaultTableModel createJTable_o() {
-
+        //creatin the JTable with the orders.
         String[] column_names = {"TischNr", "SVNr", "Zeit", "PersonNr", "Reservierung", "Essen", "Getraenk", "Preis",
                 "Abgeschlossen"};
         String url = "jdbc:sqlite:database/databasetest.db";
