@@ -39,7 +39,6 @@ public class RegistryFrame extends JFrame {
         registry.setResizable(false);
         registry.setLocation(700,300);
         registry.setLayout(new BorderLayout());
-
         JPanel panel = new JPanel(new SpringLayout());
         //Vorname
         JLabel text_vname = new JLabel("Vorname:");
@@ -339,7 +338,7 @@ public class RegistryFrame extends JFrame {
 
     public static void createXML(String tagname, String childname, String filename) {
 
-        File file = new File("/C:/Users/Mario/IdeaProjects/G2B/" + filename);
+        File file = new File(filename);
         if (!file.exists()) {
 
             try {
@@ -370,7 +369,7 @@ public class RegistryFrame extends JFrame {
 
         try {
 
-            File file = new File("/C:/Users/Mario/IdeaProjects/G2B/" + filename);
+            File file = new File(filename);
             DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFac.newDocumentBuilder();
             Document doc = docBuilder.parse(file);

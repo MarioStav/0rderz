@@ -15,6 +15,7 @@ public class DeleteFrame extends Thread {
     public static void deleteElems(JTable kellner, JLabel name, JButton del_button) {
 
         JFrame del = new JFrame("Löschen");
+        del.setAlwaysOnTop(true);
         del.setSize(400,200);
         del.setLocation(700,300);
         del.setResizable(false);
@@ -89,7 +90,7 @@ public class DeleteFrame extends Thread {
     public static boolean inDB(String svnr) {
 
         String query = "SELECT SVNr FROM Kellner WHERE SVNr = " + svnr;
-        String url = "jdbc:sqlite:C:/Users/Mario/IdeaProjects/G2B/db";
+        String url = "jdbc:sqlite:database/databasetest.db";
         if (RegistryFrame.isSVNR(svnr)) {
 
 

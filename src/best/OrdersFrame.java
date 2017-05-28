@@ -1,7 +1,6 @@
 package best;
 
 import database.DBConnect;
-import guiAnmeldung.*;
 import guifenster.Dia;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,7 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class OrdersFrame {
 
@@ -32,7 +30,7 @@ public class OrdersFrame {
         JScrollPane table_scroll = new JScrollPane(orders);
         output.add(table_scroll, BorderLayout.CENTER);
         comp.add(output, BorderLayout.CENTER);
-        orders.getTableHeader().setReorderingAllowed(false);
+        orders.getTableHeader().setReorderingAllowed(true);
         orders.setModel(createJTable_o());
         JLabel name = new JLabel("");
         comp.add(name, BorderLayout.SOUTH);
@@ -46,7 +44,7 @@ public class OrdersFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 JTable src = (JTable) e.getSource();
-                if (src.getSelectedColumn() == 5) {
+                if (src.getSelectedColumn() == 8) {
                     int count = 0;
                     for (int i = 0; i < src.getRowCount(); i++) {
                         boolean selected = (boolean) src.getValueAt(i, src.getSelectedColumn());
@@ -74,23 +72,23 @@ public class OrdersFrame {
     }
 
     public static void deleteElems(JTable order) {
-        ArrayList<Integer> orders = new ArrayList<>();
+        ArrayList<String> orders = new ArrayList<>();
         for (int i = 0; i < order.getRowCount(); i++) {
             boolean selected = (boolean) order.getValueAt(i, order.getSelectedColumn());
             if (selected) {
-                orders.add((Integer) order.getValueAt(i,0));
+                orders.add(order.getValueAt(i,0).toString());
             }
         }
         finish.addActionListener(e -> {
-            orders.forEach((something)->{
+            orders.forEach((ka)->{
                 DBConnect db = new DBConnect();
-                db.delete_b(something);
+                db.delete_b(ka);
                 });
             JDialog deleteDialog = new JDialog();
             deleteDialog.setTitle("Bestellung abgeschlossen");
             deleteDialog.add(new JLabel("Die Bestellung wurde abgeschlossen"));
             deleteDialog.setSize(100,100);
-            deleteDialog.setLocation(800,200);
+            deleteDialog.setLocation(600,500);
             deleteDialog.setResizable(false);
             deleteDialog.setVisible(true);
             OrdersFrame ordersFrame = new OrdersFrame();
@@ -100,9 +98,11 @@ public class OrdersFrame {
 
     public static DefaultTableModel createJTable_o() {
 
-        String[] column_names = {"TischNr", "SVNr", "Zeit", "Essen", "Getraenk", "Abgeschlossen"};
-        String url = "jdbc:sqlite:C:/Users/Mario/IdeaProjects/G2B/db";
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"TischNr", "SVNr", "Zeit", "Essen", "Getraenk", "Abgeschlossen"},0) {
+        String[] column_names = {"TischNr", "SVNr", "Zeit", "PersonNr", "Reservierung", "Essen", "Getraenk", "Preis",
+                "Abgeschlossen"};
+        String url = "jdbc:sqlite:database/databasetest.db";
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"TischNr", "SVNr", "Zeit" ,"PersonenAnzahl",
+                "Reservierung", "Essen", "Getraenk", "Preis", "Abgeschlossen"},0) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 if (columnIndex == column_names.length-1) {
@@ -113,7 +113,7 @@ public class OrdersFrame {
             }
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (column == 5) {
+                if (column == 8) {
                     return true;
                 } else {
                     return false;
@@ -122,10 +122,11 @@ public class OrdersFrame {
         };
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM Bestellung")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM Bestellung ORDER BY Zeit DESC")) {
             while (rs.next()) {
                 model.addRow(new Object[]{rs.getObject(column_names[0]), rs.getObject(column_names[1]), rs.getObject(column_names[2]),
-                        rs.getObject(column_names[3]), rs.getObject(column_names[4]), false});
+                        rs.getObject(column_names[3]), rs.getObject(column_names[4]), rs.getObject(column_names[5]),
+                        rs.getObject(column_names[6]), rs.getObject(column_names[7]), false});
 
             }
             rs.close();

@@ -24,7 +24,6 @@ public class LoginFrame {
         login.setSize(400,200);
         login.setLocation(700,300);
         login.setResizable(false);
-
         JPanel elems_login = new JPanel(new SpringLayout());
 
         JLabel text_loginsvnr = new JLabel("Sozialversicherungsnummer:");
@@ -61,7 +60,7 @@ public class LoginFrame {
             String svnr = svnr_field.getText();
             char[] pw = pw_field.getPassword();
             String query_svnr = "SELECT SVNr FROM Kellner WHERE SVNr = " + svnr;
-            String url = "jdbc:sqlite:C:/Users/Mario/IdeaProjects/G2B/db";
+            String url = "jdbc:sqlite:database/databasetest.db";
 
             if (RegistryFrame.isNumber(svnr) && DeleteFrame.inDB(svnr)) {
 
@@ -90,7 +89,6 @@ public class LoginFrame {
                                             name.setText(rs_log.getString("vname") + " ist eingelogged!");
                                         }
                                     } else {
-
                                         JOptionPane.showConfirmDialog(null, "Sozialversicherungsnummer oder " +
                                                 "Passwort inkorrekt", "Error", JOptionPane.OK_CANCEL_OPTION);
                                     }

@@ -1,7 +1,5 @@
 package guiAnmeldung;
 
-import database.DBConnect;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -24,7 +22,6 @@ public class CompleteFrame {
         comp.setLocation(700,300);
         comp.setLayout(new BorderLayout());
         comp.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-
         JPanel top = new JPanel(new BorderLayout());
         comp.add(top, BorderLayout.NORTH);
 
@@ -130,7 +127,7 @@ public class CompleteFrame {
     public static DefaultTableModel createJTable_k() {
 
         String[] column_names = {"SVNr", "vname", "fname", "PLZ", "Stadt", "Auswahl"};
-        String url = "jdbc:sqlite:C:/Users/Mario/IdeaProjects/G2B/db";
+        String url = "jdbc:sqlite:database/databasetest.db";
         DefaultTableModel model = new DefaultTableModel(new Object[]{"SVNr", "Vorname", "Nachname", "PLZ", "Stadt", "Auswahl"},0) {
 
             @Override

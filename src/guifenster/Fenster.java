@@ -1,5 +1,3 @@
-//"jdbc:sqlite:C:/Users/Mario/IdeaProjects/G2B/db";
-
 package guifenster;
 
 import about.About;
@@ -13,20 +11,19 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import static java.awt.Font.*;
 
 public class Fenster extends JFrame implements MenuBarSettings {
 
-    private LoginFrame loginFrame = new LoginFrame();
-    private About about = new About();
-    private CompleteFrame completeFrame = new CompleteFrame();
     public OrdersFrame ordersFrame = new OrdersFrame();
+    private LoginFrame loginFrame = new LoginFrame();
+    private CompleteFrame completeFrame = new CompleteFrame();
     private Font font = new Font("LucidaSans", ITALIC, 20);
     private JMenuBar jMenuBar = new JMenuBar();
     private boolean boolConstant = true;
@@ -50,6 +47,7 @@ public class Fenster extends JFrame implements MenuBarSettings {
     public Fenster() {
 
         this.setTitle("0rderz");
+        this.setAlwaysOnTop(false);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setSize(1000, 800);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -319,89 +317,59 @@ public class Fenster extends JFrame implements MenuBarSettings {
         }
 
         if (s == "Anmelden") {
-            menu.addMenuListener(new MenuListener() {
+            menu.addMouseListener(new MouseAdapter() {
                 @Override
-                public void menuSelected(MenuEvent e) {
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
                     completeFrame.frameElems();
-                }
-
-                @Override
-                public void menuDeselected(MenuEvent e) {
-
-                }
-
-                @Override
-                public void menuCanceled(MenuEvent e) {
-
                 }
             });
         }
 
         if (s == "About") {
-            menu.addMenuListener(new MenuListener() {
+            menu.addMouseListener(new MouseAdapter() {
                 @Override
-                public void menuSelected(MenuEvent e) {
-                    String[] arg = new String[]{};
-                    about.main(arg);
-                }
-
-                @Override
-                public void menuDeselected(MenuEvent e) {
-
-                }
-
-                @Override
-                public void menuCanceled(MenuEvent e) {
-
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    String[] args = {"Hello"};
+                    About.main(args);
                 }
             });
         }
 
-        if (s == "Aktuelle Bestellungen") {
-            menu.addMenuListener(new MenuListener() {
-                @Override
-                public void menuSelected(MenuEvent e) {
-                    int option = JOptionPane.showOptionDialog(null, "Möchten Sie eine neue Bestellung hinzufügen?",
-                            "Bestellung hinzufügen",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE, null,
-                            new String[] {"Ja", "Nein"}, "JA");
-                    if(option == 0){
-                        Dia dia = new Dia();
-                    }else{
-                        if (loginFrame.loged_in == ""){
-                            JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden," +
-                                    "bevor Sie die Bestellungen ansehen können", "Kein Zugriff", JOptionPane.OK_CANCEL_OPTION);
-                        }else{
-                            OrdersFrame ordersFrame = new OrdersFrame();
-                            ordersFrame.frameElems();
+            if (s == "Aktuelle Bestellungen") {
+                menu.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        int option = JOptionPane.showOptionDialog(null, "Möchten Sie eine neue Bestellung hinzufügen?",
+                                "Bestellung hinzufügen",
+                                JOptionPane.YES_NO_CANCEL_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null,
+                                new String[]{"Ja", "Nein"}, "JA");
+                        if (option == 0) {
+                            Dia dia = new Dia();
+                        } else {
+                            if (loginFrame.loged_in == "") {
+                                JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden, " +
+                                        "bevor Sie die Bestellungen ansehen können", "Kein Zugriff", JOptionPane.PLAIN_MESSAGE);
+                            } else {
+                                ordersFrame.frameElems();
+                            }
                         }
                     }
-                }
-
-                @Override
-                public void menuDeselected(MenuEvent e) {
-
-                }
-
-                @Override
-                public void menuCanceled(MenuEvent e) {
-
-                }
-            });
+                });
+            }
+            this.jMenuBar.add(menu);
         }
-        this.jMenuBar.add(menu);
-    }
-
     public static void main(String[] args) {
         Fenster fenster = new Fenster();
-        DBConnect.DBcreate("G2B.db");
+        DBConnect.DBcreate("databasetest.db");
         DBConnect.TableCreate();
         DBConnect ka = new DBConnect();
         RegistryFrame.createXML("addresses", "address", "Addresses.xml");
-/*        for (int i = 0; i < 11 ; i++) {
-            ka.delete_b(i);
-        }*/
+
     }
 }
 

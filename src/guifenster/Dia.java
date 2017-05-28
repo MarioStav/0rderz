@@ -93,6 +93,7 @@ public class Dia extends JDialog{
         setDrinking(bagConstraints);
         setCommit(bagConstraints);
         setVisible(true);
+        setAlwaysOnTop(true);
         setDefaultCloseOperation(this.HIDE_ON_CLOSE);
     }
 
@@ -136,7 +137,12 @@ public class Dia extends JDialog{
         gb.insets = new Insets(5,5,0,0);
         this.eatingComboBox = new JComboBox(generateEatingList());
         add(this.eatingComboBox, gb);
+
         JButton addEating = new JButton("Hinzufügen");
+        gb.anchor = GridBagConstraints.SOUTHEAST;
+        gb.gridwidth = 2;
+        gb.gridheight = 1;
+        gb.insets = new Insets(5,5,0,0);
         addEating.addActionListener(e -> {
             this.eatingArrayList.addToOAL(this.eatingComboBox,this.eatingArrayList);
         });
@@ -226,6 +232,16 @@ public class Dia extends JDialog{
         return erg;
     }
 
+    public String getStringFromBool(boolean isReserved){
+        String isRes = "";
+        if (isReserved){
+            isRes += "Ja";
+        }else{
+            isRes += "Nein";
+        }
+        return isRes;
+    }
+
     public void setCommit(GridBagConstraints gb){
         JButton jb = new JButton("Bestellung Hinzufügen");
         gb.gridy = 20;
@@ -247,11 +263,10 @@ public class Dia extends JDialog{
             TreeMap<String,Integer> eatingTreeMap = this.eatingArrayList.toTreeMap(this.eatingArrayList);
             TreeMap<String,Integer> drinkingTreeMap = this.drinkingArrayList.toTreeMap(this.drinkingArrayList);
             System.out.println(sumOrders(eatingTreeMap,drinkingTreeMap));
-            dbConnect.insert_b(getTableNr(), this.lg.loged_in ,ct.timeString, toStringTreeMap(eatingTreeMap)
-                    , toStringTreeMap(drinkingTreeMap),20.0);
+            dbConnect.insert_b(getTableNr(), this.lg.loged_in ,ct.timeString, this.personnr, getStringFromBool(this.isst)
+                    ,toStringTreeMap(eatingTreeMap), toStringTreeMap(drinkingTreeMap),sumOrders(eatingTreeMap,drinkingTreeMap));
             this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            OrdersFrame ordersFrame = new OrdersFrame();
-            ordersFrame.frameElems();
+            OrdersFrame.frameElems();
         });
 
         add(jb,gb);
