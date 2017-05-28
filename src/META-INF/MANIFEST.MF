@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: C:\Users\Mario\IdeaProjects\G2B\src\guifenster\Fenster
+Main-Class: Fenster
+

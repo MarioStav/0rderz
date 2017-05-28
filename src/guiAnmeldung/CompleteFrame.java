@@ -111,7 +111,7 @@ public class CompleteFrame {
 
             if (LoginFrame.loged_in.length() > 1) {
 
-                JOptionPane.showConfirmDialog(null,"ausgelogged", "Information", JOptionPane.OK_CANCEL_OPTION);
+                JOptionPane.showConfirmDialog(null,"Ausgelogged", "Information", JOptionPane.OK_CANCEL_OPTION);
                 LoginFrame.loged_in = "";
                 name.setText("");
 
@@ -129,7 +129,6 @@ public class CompleteFrame {
 
     public static DefaultTableModel createJTable_k() {
 
-        //Object[][] data = new Object[30][6];  //wie bekommt man unbegrenzt viele einträge
         String[] column_names = {"SVNr", "vname", "fname", "PLZ", "Stadt", "Auswahl"};
         String url = "jdbc:sqlite:C:/Users/Mario/IdeaProjects/G2B/db";
         DefaultTableModel model = new DefaultTableModel(new Object[]{"SVNr", "Vorname", "Nachname", "PLZ", "Stadt", "Auswahl"},0) {
@@ -148,6 +147,7 @@ public class CompleteFrame {
                 }
 
             }
+
 
             @Override
             public boolean isCellEditable(int row, int column) {

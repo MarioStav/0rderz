@@ -1,17 +1,20 @@
 package best;
 
 import database.DBConnect;
+import guiAnmeldung.*;
 import guifenster.Dia;
-import guiAnmeldung.LoginFrame;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class OrdersFrame {
-    static JButton del = new JButton("Abschließen");
+
+    public static JButton finish = new JButton("Abschließen");
 
     public static void frameElems() {
         JFrame comp = new JFrame("Aktuelle Bestellungen");
@@ -33,13 +36,11 @@ public class OrdersFrame {
         orders.setModel(createJTable_o());
         JLabel name = new JLabel("");
         comp.add(name, BorderLayout.SOUTH);
-        buttons.add(del, BorderLayout.EAST);
-        del.setVisible(false);
-        del.addActionListener(action -> {
-            DeleteFrameOrder.deleteElems(orders, name, del);
+        buttons.add(finish, BorderLayout.EAST);
+        finish.setVisible(false);
+        finish.addActionListener(action -> {
+            deleteElems(orders);
         });
-
-
         orders.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -54,13 +55,15 @@ public class OrdersFrame {
                         }
                     }
                     if (count != 0) {
-                        del.setVisible(true);
+                        finish.setVisible(true);
                     } else {
-                        del.setVisible(false);
+                        finish.setVisible(false);
                     }
                 }
+
             }
         });
+
 
         JButton best = new JButton("Neue Bestellung");
         buttons.add(best, BorderLayout.CENTER);
@@ -68,6 +71,31 @@ public class OrdersFrame {
             Dia dia = new Dia();
         });
         comp.setVisible(true);
+    }
+
+    public static void deleteElems(JTable order) {
+        ArrayList<Integer> orders = new ArrayList<>();
+        for (int i = 0; i < order.getRowCount(); i++) {
+            boolean selected = (boolean) order.getValueAt(i, order.getSelectedColumn());
+            if (selected) {
+                orders.add((Integer) order.getValueAt(i,0));
+            }
+        }
+        finish.addActionListener(e -> {
+            orders.forEach((something)->{
+                DBConnect db = new DBConnect();
+                db.delete_b(something);
+                });
+            JDialog deleteDialog = new JDialog();
+            deleteDialog.setTitle("Bestellung abgeschlossen");
+            deleteDialog.add(new JLabel("Die Bestellung wurde abgeschlossen"));
+            deleteDialog.setSize(100,100);
+            deleteDialog.setLocation(800,200);
+            deleteDialog.setResizable(false);
+            deleteDialog.setVisible(true);
+            OrdersFrame ordersFrame = new OrdersFrame();
+            ordersFrame.frameElems();
+        });
     }
 
     public static DefaultTableModel createJTable_o() {

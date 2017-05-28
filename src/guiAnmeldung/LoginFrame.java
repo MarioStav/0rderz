@@ -15,7 +15,7 @@ import java.sql.*;
 
 public class LoginFrame {
 
-    static String loged_in = "";
+    public static String loged_in = "";
 
     public static void loginElems(JLabel name) {
 
@@ -70,75 +70,49 @@ public class LoginFrame {
                      ResultSet rs_svnr = stmt_svnr.executeQuery(query_svnr)) {
 
                     while (rs_svnr.next()) {
-
                         String check_svnr = rs_svnr.getString("SVNr");
-
                         if (RegistryFrame.isNumber(svnr)) {
-
                             if (svnr.equals(check_svnr)) {
-
                                 String query_pw = "SELECT pw FROM Kellner WHERE SVNr = " + check_svnr;
                                 Statement stmt_pw = conn.createStatement();
                                 ResultSet rs_pw = stmt_pw.executeQuery(query_pw);
-
                                 while (rs_pw.next()) {
-
                                     String check_pw = rs_pw.getString("pw");
                                     String pw_str = String.valueOf(pw);
                                     if (pw_str.equals(check_pw)) {
-
                                         loged_in = svnr;
-                                        String query_login = "SELECT fname FROM Kellner WHERE SVNr = " + svnr;
+                                        String query_login = "SELECT vname FROM Kellner WHERE SVNr = " + svnr;
                                         Statement stmt_log = conn.createStatement();
                                         ResultSet rs_log = stmt_log.executeQuery(query_login);
-
                                         while (rs_log.next()) {
-
-                                            JOptionPane.showConfirmDialog(null, "Herzlich Willkommen Herr " +
-                                                    rs_log.getString("fname"), "Gute dize", JOptionPane.OK_CANCEL_OPTION);
-                                            name.setText("Herr " + rs_log.getString("fname") + " ist eingelogged!");
-
+                                            JOptionPane.showConfirmDialog(null, "Herzlich Willkommen " +
+                                                    rs_log.getString("vname"), "Login erfolgreich", JOptionPane.OK_CANCEL_OPTION);
+                                            name.setText(rs_log.getString("vname") + " ist eingelogged!");
                                         }
-
                                     } else {
 
-                                        JOptionPane.showConfirmDialog(null, "Passwort inkorrekt", "Error", JOptionPane.OK_CANCEL_OPTION);
-
+                                        JOptionPane.showConfirmDialog(null, "Sozialversicherungsnummer oder " +
+                                                "Passwort inkorrekt", "Error", JOptionPane.OK_CANCEL_OPTION);
                                     }
-
                                 }
-
                                 rs_pw.close();
                                 stmt_pw.close();
-
                             } else {
-
                                 JOptionPane.showConfirmDialog(null, "SVNr existiert nicht", "Error", JOptionPane.OK_CANCEL_OPTION);
-
                             }
-
                         } else {
-
                             JOptionPane.showConfirmDialog(null, "Keine gültige Zahl", "Error", JOptionPane.OK_CANCEL_OPTION);
-
                         }
-
                     }
 
                     rs_svnr.close();
                     stmt_svnr.close();
                     conn.close();
-
                 } catch (SQLException e) {
-
                     System.out.println(e.getMessage());
-
                 }
-
                 login.setVisible(false);
-
             } else {
-
                 JOptionPane.showConfirmDialog(null, "Keine gültige SVNr oder nicht vorhanden!", "Error", JOptionPane.OK_CANCEL_OPTION);
 
 
