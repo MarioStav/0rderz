@@ -1,4 +1,5 @@
-package classesAndMethods;
+/**@author Mario \n @since (datum) */
+package orderPackage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,21 +7,23 @@ import java.util.TreeMap;
 
 import javax.swing.*;
 
-public class OwnArrayList extends ArrayList{
+public class UtilArrayList extends ArrayList{
 
-    public void initList(OwnArrayList ownArrayList, String[] list){
+    public void initList(UtilArrayList utilArrayList, String[] list){
         for (int i = 0; i < list.length; i++) {
-            ownArrayList.add(list[i-1]);
+            utilArrayList.add(list[i-1]);
         }
     }
 
-    public void addToOAL(JComboBox comboBox, OwnArrayList ownArrayList) {
-        ownArrayList.add(comboBox.getSelectedItem().toString());
+    //adding the selected object from a combobox to the arraylist
+    public void addToOAL(JComboBox comboBox, UtilArrayList utilArrayList) {
+        utilArrayList.add(comboBox.getSelectedItem().toString());
     }
 
-    public TreeMap<String,Integer> toTreeMap(OwnArrayList ownArrayList){
+    //generating a new treemap from the utilarraylist
+    public TreeMap<String,Integer> toTreeMap(UtilArrayList utilArrayList){
         TreeMap<String,Integer> treeMap = new TreeMap<>();
-        Iterator iterator = ownArrayList.iterator();
+        Iterator iterator = utilArrayList.iterator();
         while(iterator.hasNext()){
             String key = iterator.next().toString();
             if(treeMap.get(key) == null){
@@ -33,13 +36,9 @@ public class OwnArrayList extends ArrayList{
         return treeMap;
     }
 
-    public String toStringTreeMap(TreeMap<String,Integer> treeMap){
-        String string = "";
-        return string;
-    }
-
-    public String ownToString(OwnArrayList ownArrayList){
-        Iterator iterator = ownArrayList.iterator();
+    //generating a string from the utilarraylist
+    public String ownToString(UtilArrayList utilArrayList){
+        Iterator iterator = utilArrayList.iterator();
         String string = "";
         while (iterator.hasNext()){
             string += iterator.next();

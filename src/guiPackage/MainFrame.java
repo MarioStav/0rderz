@@ -1,11 +1,13 @@
-package guifenster;
+/**@author Mario \n @since (datum) */
 
-import about.About;
-import best.OrdersFrame;
+package guiPackage;
+
+import guiPackage.About;
+import orderPackage.OrdersFrame;
 import database.DBConnect;
-import guiAnmeldung.CompleteFrame;
-import guiAnmeldung.LoginFrame;
-import guiAnmeldung.RegistryFrame;
+import SignIn.CompleteFrame;
+import SignIn.LoginFrame;
+import SignIn.RegistryFrame;
 
 import java.awt.*;
 import javax.swing.*;
@@ -19,7 +21,7 @@ import java.awt.event.MouseEvent;
 
 import static java.awt.Font.*;
 
-public class Fenster extends JFrame implements MenuBarSettings {
+public class MainFrame extends JFrame implements MenuBarSettings {
 
     public OrdersFrame ordersFrame = new OrdersFrame();
     private LoginFrame loginFrame = new LoginFrame();
@@ -44,9 +46,10 @@ public class Fenster extends JFrame implements MenuBarSettings {
     private JButton table11 = new JButton();
     private JButton table5 = new JButton();
 
-    public Fenster() {
-
+    public MainFrame() {
+        //default constructor
         this.setTitle("0rderz");
+        this.setIcon();
         this.setAlwaysOnTop(false);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setSize(1000, 800);
@@ -60,6 +63,11 @@ public class Fenster extends JFrame implements MenuBarSettings {
         this.setJMenuBar(this.jMenuBar);
         this.setMainStructure();
         this.setVisible(true);
+    }
+
+    void setIcon(){
+        //setting the ORDERZ icon
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("zeroIcon.png")));
     }
 
     public void setMainStructure() {
@@ -294,12 +302,12 @@ public class Fenster extends JFrame implements MenuBarSettings {
         String s = jb.getText();
         int i = Character.getNumericValue(s.charAt(s.length() - 1));
         if ((jb != table11) && (jb != table10)) {
-            Dia dia = new Dia(i);
+            OrderDialog orderDialog = new OrderDialog(i);
         } else {
             if (jb == table11) {
-                Dia dia = new Dia(11);
+                OrderDialog orderDialog = new OrderDialog(11);
             } else if (jb == table10) {
-                Dia dia = new Dia(10);
+                OrderDialog orderDialog = new OrderDialog(10);
             }
         }
     }
@@ -349,7 +357,7 @@ public class Fenster extends JFrame implements MenuBarSettings {
                                 JOptionPane.QUESTION_MESSAGE, null,
                                 new String[]{"Ja", "Nein"}, "JA");
                         if (option == 0) {
-                            Dia dia = new Dia();
+                            OrderDialog orderDialog = new OrderDialog();
                         } else if(option == 1) {
                             if (loginFrame.loged_in == "") {
                                 JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden, " +
@@ -364,7 +372,7 @@ public class Fenster extends JFrame implements MenuBarSettings {
             this.jMenuBar.add(menu);
         }
     public static void main(String[] args) {
-        Fenster fenster = new Fenster();
+        MainFrame mainFrame = new MainFrame();
         DBConnect.DBcreate("databasetest.db");
         DBConnect.TableCreate();
         DBConnect ka = new DBConnect();

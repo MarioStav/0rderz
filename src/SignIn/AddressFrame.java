@@ -1,27 +1,26 @@
-package guiAnmeldung;
+/**@author Christoph \n @since (datum) */
+
+package SignIn;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by Christoph on 19.05.2017.
- */
+public class AddressFrame extends CompleteFrame {
 
-public class AddressFrame {
+    //default constructor method to create the adrress frame which asks for uploading a new address to the database
+    public void createAddressFrame(){
 
-    public static void createAddressFrame() {
-
-        JFrame errorAddress = new JFrame("Error");
-        errorAddress.setLayout(new BorderLayout());
-        errorAddress.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        errorAddress.setSize(400,180);
-        errorAddress.setLocation(700,300);
-        errorAddress.setResizable(false);
+        this.setTitle("Adresse Hinzufügen");
+        this.setLayout(new BorderLayout());
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setSize(400,180);
+        this.setLocation(700,300);
+        this.setResizable(false);
 
         JLabel errorMessage = new JLabel("Error: Keine gültige Adresse");
         JLabel options = new JLabel("Adresse ungültig! Wollen Sie eine neue Adresse hinzufügen?");
-        errorAddress.add(errorMessage, BorderLayout.NORTH);
-        errorAddress.add(options, BorderLayout.NORTH);
+        this.add(errorMessage, BorderLayout.NORTH);
+        this.add(options, BorderLayout.NORTH);
 
         JPanel panel = new JPanel(new SpringLayout());
 
@@ -41,7 +40,7 @@ public class AddressFrame {
 
         SpringUtilities.makeGrid(panel, 2, 2, 6, 30, 6, 15);
 
-        errorAddress.add(panel, BorderLayout.SOUTH);
+        this.add(panel, BorderLayout.SOUTH);
         JButton addButton = new JButton("Hinzufügen");
         panel.add(addButton);
 
@@ -53,7 +52,7 @@ public class AddressFrame {
                 if (RegistryFrame.appendXML("Addresses.xml", "address", RegistryFrame.toInt(field_PLZ.getText()), field_city.getText())) {
 
                     JOptionPane.showConfirmDialog(null, "Adresse erfolgreich hinzugefügt!", "Success", JOptionPane.OK_CANCEL_OPTION);
-                    errorAddress.setVisible(false);
+                    this.setVisible(false);
 
                 } else {
 
@@ -69,7 +68,7 @@ public class AddressFrame {
 
         });
 
-        errorAddress.setVisible(true);
+        this.setVisible(true);
 
     }
 

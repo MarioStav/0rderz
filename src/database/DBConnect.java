@@ -1,13 +1,12 @@
+/**@author Christoph \n @since (datum) */
+
 package database;
 
 import java.sql.*;
 
-/**
- *
- * @author Christoph Reichl
- */
 public class DBConnect {
 
+    //create coonstructor for the database
     public static void DBConnect() {
 
         Connection conn = null;
@@ -40,6 +39,7 @@ public class DBConnect {
         }
     }
 
+    //create database in sqlite
     public static void DBcreate(String fileName) {
 
         String url = "jdbc:sqlite:database/" + fileName;
@@ -60,6 +60,7 @@ public class DBConnect {
         }
     }
 
+    //create database in sqlite
     public static void TableCreate() {
 
         // SQLite connection string
@@ -101,7 +102,7 @@ public class DBConnect {
     }
 
     public boolean insert_k(String SVNr, String vname, String fname, String pw, int PLZ, String Stadt) {
-
+        //inserting into the servant table
         String url = "jdbc:sqlite:database/databasetest.db";
         String sql = "INSERT INTO Kellner(SVNr, vname, fname, pw, PLZ, Stadt) VALUES(?, ?, ?, ?, ?, ?)";
 
@@ -127,7 +128,7 @@ public class DBConnect {
     }
 
     public void insert_b(String Zeit, int TischNr, String SVNr, String PersonNr, String Reservierung, String Essen, String Getraenk, double Preis) {
-
+        //inserting into the orders table
         String url = "jdbc:sqlite:database/databasetest.db";
         String sql = "INSERT INTO Bestellung(Zeit, TischNr, SVNr, PersonNr, Reservierung, Essen, Getraenk, Preis) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -153,7 +154,7 @@ public class DBConnect {
     }
 
     public void delete_k(String SVNr) {
-
+        //deleting a row in the servant table
         String url = "jdbc:sqlite:database/databasetest.db";
         String sql = "DELETE FROM Kellner WHERE SVNr = ?";
 
@@ -173,7 +174,7 @@ public class DBConnect {
     }
 
     public void delete_b(String Zeit) {
-
+        //deleting a row in the order table
         String url = "jdbc:sqlite:database/databasetest.db";
         String sql = "DELETE FROM Bestellung WHERE Zeit = ?";
 

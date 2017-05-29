@@ -1,4 +1,6 @@
-package guiAnmeldung;
+/**@author Christoph \n @since (datum)
+ * @description A class that creates a frame. In this Frame servants can login*/
+package SignIn;
 
 import database.DBConnect;
 
@@ -9,21 +11,18 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 
-/**
- * Created by Christoph on 16.04.2017.
- */
-
-public class LoginFrame {
+public class LoginFrame extends CompleteFrame {
 
     public static String loged_in = "";
 
-    public static void loginElems(JLabel name) {
+    //default create method for the login frame
+    public void loginElems(JLabel name) {
 
-        JFrame login = new JFrame("Login");
-        login.setLayout(new BorderLayout());
-        login.setSize(400,200);
-        login.setLocation(700,300);
-        login.setResizable(false);
+        this.setLayout(new BorderLayout());
+        this.setTitle("Login");
+        this.setSize(400,200);
+        this.setLocation(700,300);
+        this.setResizable(false);
         JPanel elems_login = new JPanel(new SpringLayout());
 
         JLabel text_loginsvnr = new JLabel("Sozialversicherungsnummer:");
@@ -40,16 +39,17 @@ public class LoginFrame {
 
         SpringUtilities.makeGrid(elems_login, 2, 2, 6, 30, 6, 10);
 
-        login.add(elems_login, BorderLayout.NORTH);
-        login.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        login.setVisible(true);
+        this.add(elems_login, BorderLayout.NORTH);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setVisible(true);
 
         JButton b_login = new JButton("Login");
-        login.add(b_login, BorderLayout.PAGE_END);
-        loginConfirm(b_login, field_loginsvnr, field_loginpw, login, name);
+        this.add(b_login, BorderLayout.PAGE_END);
+        loginConfirm(b_login, field_loginsvnr, field_loginpw, this, name);
 
     }
 
+    /**@param name the gui textfield in order to test if someone authorized loggs in*/
     public static void loginConfirm(JButton button_login, JTextField svnr_field, JPasswordField pw_field, JFrame login, JLabel name) {
         //tests if logging in is possible or not
         DBConnect connect = new DBConnect();
@@ -116,6 +116,7 @@ public class LoginFrame {
         });
 
     }
+
 
     public static void playSound(File sound) {
 

@@ -1,11 +1,12 @@
-package guifenster;
+/**@author Mario \n @since (datum) */
 
+package guiPackage;
 
-import best.CurrentTime;
-import best.OrdersFrame;
-import classesAndMethods.OwnArrayList;
+import orderPackage.CurrentTime;
+import orderPackage.OrdersFrame;
+import orderPackage.UtilArrayList;
 import database.DBConnect;
-import guiAnmeldung.LoginFrame;
+import SignIn.LoginFrame;
 
 import java.awt.event.WindowEvent;
 import java.util.*;
@@ -14,11 +15,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.TreeMap;
 
+import static java.lang.Math.round;
+
 /**
  * Created by Mario on 09.05.2017.
  */
-public class Dia extends JDialog{
+public class OrderDialog extends JDialog{
 
+    //all necessary data
     private LoginFrame lg = new LoginFrame();
     private int tableInt = 0;
     private JComboBox tableComboBox;
@@ -27,16 +31,19 @@ public class Dia extends JDialog{
     private String personnr = "";
     private JComboBox personComboBox;
     private JComboBox eatingComboBox;
-    private OwnArrayList eatingArrayList = new OwnArrayList();
-    private OwnArrayList drinkingArrayList = new OwnArrayList();
+    private UtilArrayList eatingArrayList = new UtilArrayList();
+    private UtilArrayList drinkingArrayList = new UtilArrayList();
     private boolean issf = false;
     private boolean isst = false;
 
+
+    //artificial get method for returning the list with the drinks
     public String[] generateDrinkingList(){
         String[] drinkingList = {"Fanta","Cola", "Sprite","Bier","Wein"};
         return drinkingList;
     }
 
+    //artificial get method for returning the list with the amount of persons
     public String[] generatePersonList(){
         String[] personList = new String[12];
         for (int i = 0; i < 12; i++) {
@@ -45,12 +52,14 @@ public class Dia extends JDialog{
         return personList;
     }
 
+    //artificial get method for returning the list with the meals
     public String[] generateEatingList(){
         String[] EatingList = {"Pizza", "Schnitzel", "Salat" , "Burger" , "Pommes"};
         return EatingList;
     }
 
-    public Dia(){
+    //normal constructor; checks if someone is logged in
+    public OrderDialog(){
         if (lg.loged_in == ""){
             JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden, " +
                     "um Bestellungen hinzufügen zu können", "Kein Zugriff", JOptionPane.PLAIN_MESSAGE);
@@ -59,6 +68,7 @@ public class Dia extends JDialog{
         }
     }
 
+    //artificial get method for returning the list with the tables
     public String[] generateTableList(){
         String[] tableList = new String[11];
         for (int i = 0; i < 11; i++) {
@@ -67,7 +77,8 @@ public class Dia extends JDialog{
         return tableList;
     }
 
-    public Dia(int in){
+    //constructor with the selected table as default; checks if someone is logged in
+    public OrderDialog(int in){
         if (lg.loged_in == ""){
             JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden, " +
                     "um Bestellungen hinzufügen zu können", "Kein Zugriff", JOptionPane.PLAIN_MESSAGE);
@@ -77,12 +88,13 @@ public class Dia extends JDialog{
         }
     }
 
+    //configuring method for the dialog window itself
     public void configure(int ti){
         setLayout(new GridBagLayout());
         setTitle("Neue Bestellung");
         setResizable(false);
         setSize(new Dimension(380,370));
-        setLocation(600,200);
+        setLocation(700,300);
         GridBagConstraints bagConstraints = new GridBagConstraints();
         setLayout(new GridBagLayout());
         setHeader(bagConstraints, "Neue Bestellung hinzufügen");
@@ -97,6 +109,7 @@ public class Dia extends JDialog{
         setDefaultCloseOperation(this.HIDE_ON_CLOSE);
     }
 
+    //setter method for the drinking - gui - elements
     public void setDrinking(GridBagConstraints gb) {
         JLabel drinkingLabel = new JLabel();
         drinkingLabel.setText("Getränke:");
@@ -123,6 +136,7 @@ public class Dia extends JDialog{
         add(nullPanel,gb);
     }
 
+    //setter method for the meal - gui - elements
     public void setEating(GridBagConstraints gb) {
         JLabel eatingLabel = new JLabel();
         eatingLabel.setText("Essen:");
@@ -154,6 +168,7 @@ public class Dia extends JDialog{
         add(nullPanel,gb);
     }
 
+    //setter method for the radio buttons (gui)
     public void setReservedRadio(GridBagConstraints gb) {
         JLabel reservedLabel = new JLabel("Reservierung: ");
         reservedLabel.setFont(new Font("font",Font.ITALIC,16));
@@ -186,12 +201,14 @@ public class Dia extends JDialog{
         add(nullPanel,gb);
     }
 
+    //getter for the number of the table
     public int getTableNr (){
         String[] parts = this.selectedTable.split(" ");
         int nr = Integer.parseInt(parts[1]);
         return nr;
     }
 
+    //returning the string of a treemap; looking like this -> 2x Pizza,...
     public String toStringTreeMap(TreeMap<String,Integer> treeMap){
         String help = "";
         for (Map.Entry<String, Integer> entry : treeMap.entrySet()) {
@@ -203,6 +220,7 @@ public class Dia extends JDialog{
         return help;
     }
 
+    //calculates the costs of an order
     public double sumOrders(TreeMap<String,Integer> eatingTreeMap, TreeMap<String,Integer> drinkingTreeMap){
         //prices and guts are fixed. The servants can't decide whether the restaurant owns something or not.
         double erg = 0;
@@ -229,9 +247,11 @@ public class Dia extends JDialog{
                 erg += 17.8 * drinkingEntry.getValue();
             }
         }
+        round(erg);
         return erg;
     }
 
+    //get yes or no from the radio buttons
     public String getStringFromBool(boolean isReserved){
         String isRes = "";
         if (isReserved){
@@ -242,6 +262,8 @@ public class Dia extends JDialog{
         return isRes;
     }
 
+
+    //setting the BIG commit button
     public void setCommit(GridBagConstraints gb){
         JButton jb = new JButton("Bestellung Hinzufügen");
         gb.gridy = 20;
@@ -256,7 +278,6 @@ public class Dia extends JDialog{
             CurrentTime ct = new CurrentTime();
             TreeMap<String,Integer> eatingTreeMap = this.eatingArrayList.toTreeMap(this.eatingArrayList);
             TreeMap<String,Integer> drinkingTreeMap = this.drinkingArrayList.toTreeMap(this.drinkingArrayList);
-            System.out.println(sumOrders(eatingTreeMap,drinkingTreeMap));
             dbConnect.insert_b(ct.timeString, this.getTableNr() ,this.lg.loged_in, this.personnr, getStringFromBool(this.isst)
                     ,toStringTreeMap(eatingTreeMap), toStringTreeMap(drinkingTreeMap),sumOrders(eatingTreeMap,drinkingTreeMap));
             this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
@@ -266,6 +287,7 @@ public class Dia extends JDialog{
         add(jb,gb);
     }
 
+    //setting the gui elements of the person row
     public void setPersonCombo(GridBagConstraints gb){
         JLabel personLabel = new JLabel("Anzahl Personen: ");
         personLabel.setFont(new Font("font",Font.ITALIC,16));
@@ -278,6 +300,7 @@ public class Dia extends JDialog{
         add(this.personComboBox, gb);
     }
 
+    //setting the gui elements of the table row
     public void setTableCombo(int ti,GridBagConstraints gb) {
         //Method to set the first row
         JLabel tableLabel = new JLabel();
@@ -296,6 +319,7 @@ public class Dia extends JDialog{
         add(this.tableComboBox, gb);
     }
 
+    //getting and setting the table that was clicked as a jbutton
     public void setAndGetSelectedTable(int i,JComboBox jcb) {
         //set default to the desk that was clicked
         if (i != 0){
@@ -304,6 +328,7 @@ public class Dia extends JDialog{
         }
     }
 
+    //setting the first row of the dialog
     public void setHeader(GridBagConstraints gb, String head){
         gb.gridwidth = GridBagConstraints.REMAINDER;
         gb.gridheight = 2;
@@ -315,7 +340,7 @@ public class Dia extends JDialog{
     }
 
     public static void main(String[] args) {
-        Dia dia = new Dia(0);
+        OrderDialog orderDialog = new OrderDialog(0);
     }
 
 }

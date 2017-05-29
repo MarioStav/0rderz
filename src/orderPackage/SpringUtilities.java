@@ -1,8 +1,6 @@
-package best;
+/**@author Christoph \n @since (datum) */
+package orderPackage;
 
-/**
- * Created by Mario on 20.05.2017.
- */
 import javax.swing.*;
 import javax.swing.SpringLayout;
 import java.awt.*;

@@ -1,4 +1,5 @@
-package guiAnmeldung;
+/**@author Christoph \n @since (datum) */
+package SignIn;
 
 import database.DBConnect;
 
@@ -7,19 +8,16 @@ import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * Created by Christoph on 28.04.2017.
- */
-public class DeleteFrame extends Thread {
+public class DeleteFrame extends CompleteFrame {
 
-    public static void deleteElems(JTable kellner, JLabel name, JButton del_button) {
-
-        JFrame del = new JFrame("Löschen");
-        del.setAlwaysOnTop(true);
-        del.setSize(400,200);
-        del.setLocation(700,300);
-        del.setResizable(false);
-        del.setLayout(new BorderLayout());
+    //default creating method for the frame
+    public void deleteElems(JTable kellner, JLabel name, JButton del_button) {
+        
+        this.setAlwaysOnTop(true);
+        this.setSize(400,200);
+        this.setLocation(700,300);
+        this.setResizable(false);
+        this.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel(new SpringLayout());
 
@@ -49,6 +47,7 @@ public class DeleteFrame extends Thread {
 
         }
 
+        //testing if the admin really wants to delete a servant
         JButton del_confirm = new JButton("Löschen");
         del_confirm.addActionListener(action -> {
 
@@ -65,7 +64,7 @@ public class DeleteFrame extends Thread {
                         name.setText("");
 
                     }
-                    del.setVisible(false);
+                    this.setVisible(false);
                     del_button.setVisible(false);
                     kellner.setModel(CompleteFrame.createJTable_k());
 
@@ -81,13 +80,14 @@ public class DeleteFrame extends Thread {
 
         });
 
-        del.add(del_confirm, BorderLayout.SOUTH);
-        del.add(panel, BorderLayout.NORTH);
-        del.setVisible(true);
-        del.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.add(del_confirm, BorderLayout.SOUTH);
+        this.add(panel, BorderLayout.NORTH);
+        this.setVisible(true);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
     }
 
+    //select method in sql
     public static boolean inDB(String svnr) {
 
         String query = "SELECT SVNr FROM Kellner WHERE SVNr = " + svnr;

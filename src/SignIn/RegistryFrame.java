@@ -1,4 +1,5 @@
-package guiAnmeldung;
+/**@author Mario \n @since (datum) */
+package SignIn;
 
 import database.DBConnect;
 
@@ -24,37 +25,32 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-/**
- * Created by Christoph on 29.03.2017.
- */
+public class RegistryFrame extends CompleteFrame {
 
-public class RegistryFrame extends JFrame {
+    //default creating method for the frame to registrate a new servant
+    public void registryElems(JTable kellner) {
 
-    public static void registryElems(JTable kellner) {
-
-        //create frame
-        JFrame registry = new JFrame("Registrierung");
-        //set size
-        registry.setSize(400, 350);
-        registry.setResizable(false);
-        registry.setLocation(700,300);
-        registry.setLayout(new BorderLayout());
+        this.setTitle("Registrierung");
+        this.setSize(400, 350);
+        this.setResizable(false);
+        this.setLocation(700,300);
+        this.setLayout(new BorderLayout());
         JPanel panel = new JPanel(new SpringLayout());
-        //Vorname
+        //firstname
         JLabel text_vname = new JLabel("Vorname:");
         panel.add(text_vname);
         JTextField field_vname = new JTextField(20);
         text_vname.setLabelFor(field_vname);
         panel.add(field_vname);
 
-        //Nachname
+        //secondname
         JLabel text_fname = new JLabel("Nachname:");
         panel.add(text_fname);
         JTextField field_fname = new JTextField(20);
         text_fname.setLabelFor(field_fname);
         panel.add(field_fname);
 
-        //Sozialversicherungsnummer
+        //social security number
         JLabel text_SVNr = new JLabel("SozialversicherungsNr.:");
         panel.add(text_SVNr);
         JTextField field_SVNr = new JTextField(10);
@@ -68,7 +64,7 @@ public class RegistryFrame extends JFrame {
         text_PLZ.setLabelFor(field_PLZ);
         panel.add(field_PLZ);
 
-        //Stadt
+        //city
         JLabel text_city = new JLabel("Stadt:");
         panel.add(text_city);
         JTextField field_city = new JTextField(20);
@@ -91,14 +87,15 @@ public class RegistryFrame extends JFrame {
 
         JButton confirm = new JButton("Registrieren");
 
-        registry.add(confirm, BorderLayout.PAGE_END);
-        registry.add(panel, BorderLayout.NORTH);
-        registry.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        registryConfirm(confirm, field_pw, field_pw2, field_vname, field_fname, field_SVNr, field_PLZ, field_city, registry, kellner);
-        registry.setVisible(true);
+        this.add(confirm, BorderLayout.PAGE_END);
+        this.add(panel, BorderLayout.NORTH);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        registryConfirm(confirm, field_pw, field_pw2, field_vname, field_fname, field_SVNr, field_PLZ, field_city, this, kellner);
+        this.setVisible(true);
 
     }
 
+    //inserting into the table (database table servant)
     public static void registryConfirm(JButton confirm, JPasswordField pw_field, JPasswordField pw2_field,
                                        JTextField vname_field, JTextField fname_field, JTextField svnr_field,
                                        JTextField plz_field, JTextField city_field, JFrame registry, JTable kellner) {
@@ -131,7 +128,8 @@ public class RegistryFrame extends JFrame {
                                 JOptionPane.showConfirmDialog(null, "SVNr existiert schon!", "Succsess", JOptionPane.OK_CANCEL_OPTION);
                             }
                         } else {
-                            AddressFrame.createAddressFrame();
+                            AddressFrame adressFrame = new AddressFrame();
+                            adressFrame.createAddressFrame();
                         }
                     } else {
                         JOptionPane.showConfirmDialog(null, "Keine gültige Sozialversicherungsnummer", "Error", JOptionPane.OK_CANCEL_OPTION);
@@ -147,6 +145,7 @@ public class RegistryFrame extends JFrame {
         });
     }
 
+    //password captcha
     private static String passwordString(JPasswordField pw_field) {
 
         String pw = "";
@@ -161,6 +160,8 @@ public class RegistryFrame extends JFrame {
 
     }
 
+
+    //testing if the social security number is correct
     public static boolean isSVNR(String input) {
 
         int sum = 0;
@@ -202,6 +203,7 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    //testing if something is a word
     public static boolean isWord(String input) {
 
         input = input.trim();
@@ -218,6 +220,7 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    //testing if something is a string
     public static boolean isString(String input) {
 
         input = input.trim();
@@ -249,6 +252,7 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    //testing if something is a number
     public static boolean isNumber(String input) {
 
         input = input.trim();
@@ -265,6 +269,7 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    //generating an integer from a string
     public static int toInt(String input) {
 
         String numbers = "0123456789";
@@ -294,6 +299,7 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    //testing if something is an address
     public static boolean isAdress(String plz, String name) {
 
         if (isNumber(plz) && isString(name)) {
@@ -316,6 +322,7 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    //creating the xml file "addresses"
     public static void createXML(String tagname, String childname, String filename) {
 
         File file = new File(filename);
@@ -345,6 +352,7 @@ public class RegistryFrame extends JFrame {
         }
     }
 
+    //appending if something is a number
     public static boolean appendXML(String filename, String tagname, int plz, String stadt) {
 
         try {
@@ -396,6 +404,7 @@ public class RegistryFrame extends JFrame {
 
     }
 
+    //reading the xml file
     public static boolean readXML(String filename, String tagname, String plz, String stadt) {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

@@ -1,4 +1,6 @@
-package about;
+
+/**@author Christoph \n @since (datum) */
+package guiPackage;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -10,11 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.io.IOException;
 
-/**
- * Created by Christoph on 17.05.2017.
- */
 public class About {
 
     public static void main(String[] args) {
@@ -24,7 +22,7 @@ public class About {
     }
 
     public static void createFrameAbout() {
-
+        //default creating method in groovy; scripting
         JFrame about = new JFrame("About");
         about.setSize(500, 220);
         about.setLocation(700, 300);

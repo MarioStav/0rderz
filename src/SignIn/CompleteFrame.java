@@ -1,4 +1,6 @@
-package guiAnmeldung;
+/**@author Christoph \n @since (datum) */
+
+package SignIn;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -7,14 +9,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
 
-/**
- * Created by Christoph on 28.04.2017.
- */
-
-public class CompleteFrame {
+public class CompleteFrame extends JFrame {
+    //important data
     static public JButton del = new JButton("Löschen");
     static public String loged_in = LoginFrame.loged_in;
 
+    //default creating method for the frame
     public static void frameElems() {
 
         JFrame comp = new JFrame("Anmeldung");
@@ -45,7 +45,8 @@ public class CompleteFrame {
 
         log.addActionListener(action -> {
 
-            LoginFrame.loginElems(name);
+            LoginFrame lg = new LoginFrame();
+            lg.loginElems(name);
 
         });
 
@@ -54,11 +55,12 @@ public class CompleteFrame {
 
         del.addActionListener(action -> {
 
-            DeleteFrame.deleteElems(kellner, name, del);
+            DeleteFrame delete = new DeleteFrame();
+            delete.deleteElems(kellner, name, del);
 
         });
 
-
+        //mouse listener added to the servant table
         kellner.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -97,10 +99,12 @@ public class CompleteFrame {
         top.add(reg, BorderLayout.EAST);
         reg.addActionListener(action -> {
 
-            RegistryFrame.registryElems(kellner);
+            RegistryFrame rg = new RegistryFrame();
+            rg.registryElems(kellner);
 
         });
 
+        //testing the login
         JButton logout = new JButton("Logout");
         bottom.add(logout, BorderLayout.EAST);
 
@@ -124,6 +128,7 @@ public class CompleteFrame {
 
     }
 
+    //"drawing" the servant table
     public static DefaultTableModel createJTable_k() {
 
         String[] column_names = {"SVNr", "vname", "fname", "PLZ", "Stadt", "Auswahl"};
