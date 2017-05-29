@@ -263,10 +263,10 @@ public class Dia extends JDialog{
             TreeMap<String,Integer> eatingTreeMap = this.eatingArrayList.toTreeMap(this.eatingArrayList);
             TreeMap<String,Integer> drinkingTreeMap = this.drinkingArrayList.toTreeMap(this.drinkingArrayList);
             System.out.println(sumOrders(eatingTreeMap,drinkingTreeMap));
-            dbConnect.insert_b(getTableNr(), this.lg.loged_in ,ct.timeString, this.personnr, getStringFromBool(this.isst)
+            dbConnect.insert_b(ct.timeString, getTableNr() ,lg.loged_in, this.personnr, getStringFromBool(this.isst)
                     ,toStringTreeMap(eatingTreeMap), toStringTreeMap(drinkingTreeMap),sumOrders(eatingTreeMap,drinkingTreeMap));
             this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            OrdersFrame.frameElems();
+            OrdersFrame.jtable.setModel(OrdersFrame.createJTable_o());
         });
 
         add(jb,gb);

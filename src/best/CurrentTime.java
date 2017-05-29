@@ -7,7 +7,7 @@ public class CurrentTime {
     public String timeString = "";
 
     public CurrentTime(){
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        this.timeString = sdf.format(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        this.timeString += sdf.format(new Date());
     }
 }

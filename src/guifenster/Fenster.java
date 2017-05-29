@@ -369,7 +369,6 @@ public class Fenster extends JFrame implements MenuBarSettings {
         DBConnect.TableCreate();
         DBConnect ka = new DBConnect();
         RegistryFrame.createXML("addresses", "address", "Addresses.xml");
-
     }
 }
 

@@ -75,14 +75,14 @@ public class DBConnect {
                 + ");";
 
         String t_bestellung = "CREATE TABLE IF NOT EXISTS Bestellung (\n"
+                + "	Zeit varchar PRIMARY KEY,\n"
                 + "	TischNr integer,\n"
                 + "	SVNr varchar REFERENCES Kellner,\n"
-                + "	Zeit varchar NOT NULL PRIMARY KEY,\n"
                 + "	PersonNr varchar NOT NULL,\n"
                 + "	Reservierung varchar NOT NULL,\n"
                 + "	Essen varchar NOT NULL,\n"
                 + "	Getraenk varchar NOT NULL,\n"
-                + "	Preis double(5, 2) NOT NULL\n"
+                + "	Preis decimal(5, 2) NOT NULL\n"
                 + ");";
 
         try (Connection conn = DriverManager.getConnection(url);
@@ -126,17 +126,17 @@ public class DBConnect {
 
     }
 
-    public void insert_b(int TischNr, String SVNr, String Zeit, String PersonNr, String Reservierung, String Essen, String Getraenk, double Preis) {
+    public void insert_b(String Zeit, int TischNr, String SVNr, String PersonNr, String Reservierung, String Essen, String Getraenk, double Preis) {
 
         String url = "jdbc:sqlite:database/databasetest.db";
-        String sql = "INSERT INTO Bestellung(TischNr, SVNr, Zeit, PersonNr, Reservierung, Essen, Getraenk, Preis) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Bestellung(Zeit, TischNr, SVNr, PersonNr, Reservierung, Essen, Getraenk, Preis) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, TischNr);
-            pstmt.setString(2, SVNr);
-            pstmt.setString(3, Zeit);
+            pstmt.setString(1, Zeit);
+            pstmt.setInt(2, TischNr);
+            pstmt.setString(3, SVNr);
             pstmt.setString(4, PersonNr);
             pstmt.setString(5, Reservierung);
             pstmt.setString(6, Essen);
@@ -181,7 +181,7 @@ public class DBConnect {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // set the corresponding param
-            pstmt.setString(2, Zeit);
+            pstmt.setString(1, Zeit);
             // execute the delete statement
             pstmt.executeUpdate();
 

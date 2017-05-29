@@ -12,14 +12,15 @@ import java.sql.*;
  */
 
 public class CompleteFrame {
-    static JButton del = new JButton("Löschen");
+    static public JButton del = new JButton("Löschen");
+    static public String loged_in = LoginFrame.loged_in;
 
     public static void frameElems() {
 
         JFrame comp = new JFrame("Anmeldung");
-        comp.setSize(500,500);
+        comp.setSize(500, 500);
         comp.setResizable(false);
-        comp.setLocation(700,300);
+        comp.setLocation(700, 300);
         comp.setLayout(new BorderLayout());
         comp.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         JPanel top = new JPanel(new BorderLayout());
@@ -47,7 +48,6 @@ public class CompleteFrame {
             LoginFrame.loginElems(name);
 
         });
-
 
         top.add(del, BorderLayout.WEST);
         del.setVisible(false);
@@ -108,13 +108,13 @@ public class CompleteFrame {
 
             if (LoginFrame.loged_in.length() > 1) {
 
-                JOptionPane.showConfirmDialog(null,"Ausgelogged", "Information", JOptionPane.OK_CANCEL_OPTION);
+                JOptionPane.showConfirmDialog(null, "Ausgelogged", "Information", JOptionPane.OK_CANCEL_OPTION);
                 LoginFrame.loged_in = "";
                 name.setText("");
 
             } else {
 
-                JOptionPane.showConfirmDialog(null,"Niemand ist angemeldet", "Information", JOptionPane.OK_CANCEL_OPTION);
+                JOptionPane.showConfirmDialog(null, "Niemand ist angemeldet", "Information", JOptionPane.OK_CANCEL_OPTION);
 
             }
 
@@ -128,12 +128,12 @@ public class CompleteFrame {
 
         String[] column_names = {"SVNr", "vname", "fname", "PLZ", "Stadt", "Auswahl"};
         String url = "jdbc:sqlite:database/databasetest.db";
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"SVNr", "Vorname", "Nachname", "PLZ", "Stadt", "Auswahl"},0) {
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"SVNr", "Vorname", "Nachname", "PLZ", "Stadt", "Auswahl"}, 0) {
 
             @Override
             public Class<?> getColumnClass(int columnIndex) {
 
-                if (columnIndex == column_names.length-1) {
+                if (columnIndex == column_names.length - 1) {
 
                     return Boolean.class;
 

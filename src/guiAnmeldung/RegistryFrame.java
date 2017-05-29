@@ -114,57 +114,37 @@ public class RegistryFrame extends JFrame {
             String city = city_field.getText();
 
             if (Arrays.equals(pw_field.getPassword(), pw2_field.getPassword())) {
-
                 if (isWord(vname) && isWord(fname)) {
 
                     if (isSVNR(svnr) && isNumber(svnr)) {
 
                         if (isAdress(plz, city)) {
-
                             String pw = passwordString(pw_field);
-                            if (connect.insert_k(svnr, vname, fname, pw, toInt(plz), city)) {
 
+                            if (connect.insert_k(svnr, vname, fname, pw, toInt(plz), city)) {
                                 JOptionPane.showConfirmDialog(null, "Erflogreich registriert!", "Succsess", JOptionPane.OK_CANCEL_OPTION);
                                 registry.setVisible(false);
                                 CompleteFrame.del.setVisible(false);
                                 kellner.setModel(CompleteFrame.createJTable_k());
-
                             } else {
 
                                 JOptionPane.showConfirmDialog(null, "SVNr existiert schon!", "Succsess", JOptionPane.OK_CANCEL_OPTION);
-
                             }
-
                         } else {
-
                             AddressFrame.createAddressFrame();
-
                         }
-
                     } else {
-
                         JOptionPane.showConfirmDialog(null, "Keine gültige Sozialversicherungsnummer", "Error", JOptionPane.OK_CANCEL_OPTION);
-
                     }
-
                 } else {
-
                     JOptionPane.showConfirmDialog(null, "Vorname oder Nachname ist kein gültiger Name", "Error", JOptionPane.OK_CANCEL_OPTION);
-
                 }
-
             } else if (pw_field.getPassword().toString().isEmpty() || pw2_field.getPassword().toString().isEmpty()){
-
                 JOptionPane.showConfirmDialog(null, "Passwort-Feld ist leer", "Error", JOptionPane.OK_CANCEL_OPTION);
-
             } else {
-
                 JOptionPane.showConfirmDialog(null, "Passwörter stimmen nicht überein", "Error", JOptionPane.OK_CANCEL_OPTION);
-
             }
-
         });
-
     }
 
     private static String passwordString(JPasswordField pw_field) {

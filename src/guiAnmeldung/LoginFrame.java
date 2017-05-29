@@ -51,7 +51,7 @@ public class LoginFrame {
     }
 
     public static void loginConfirm(JButton button_login, JTextField svnr_field, JPasswordField pw_field, JFrame login, JLabel name) {
-
+        //tests if logging in is possible or not
         DBConnect connect = new DBConnect();
         connect.DBConnect();
 
@@ -103,9 +103,6 @@ public class LoginFrame {
                         }
                     }
 
-                    rs_svnr.close();
-                    stmt_svnr.close();
-                    conn.close();
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
