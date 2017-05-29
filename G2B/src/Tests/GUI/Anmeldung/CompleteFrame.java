@@ -2,13 +2,18 @@ package GUI.Anmeldung;
 
 import Database.DBConnect;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
-import java.util.Collections;
 
 /**
  * @author Christoph Reichl
@@ -23,6 +28,13 @@ public class CompleteFrame {
 
         DBConnect.DBcreate("G2B.db");
         DBConnect.TableCreate();
+        File start_sound = new File("Sounds\\Windows-98.wav");
+        playSound(start_sound);
+        try {
+            Thread.sleep(6500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         frameElems();
         RegistryFrame.createXML("addresses", "address", "Addresses.xml");
 
@@ -229,6 +241,29 @@ public class CompleteFrame {
         }
 
         return model;
+
+    }
+
+    public static void playSound(File sound) {
+        //plays the error sound if something went wrong with the login
+
+        try {
+
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(sound));
+            clip.start();
+
+            Thread.sleep(50);
+
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
