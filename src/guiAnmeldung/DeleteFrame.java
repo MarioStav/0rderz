@@ -70,11 +70,12 @@ public class DeleteFrame extends Thread {
                     kellner.setModel(CompleteFrame.createJTable_k());
 
                 });
-                JOptionPane.showConfirmDialog(null, "Benutzer gelöscht!", "Error", JOptionPane.OK_CANCEL_OPTION);
+                JOptionPane.showConfirmDialog(null, "Benutzer wurde erfolgreich gelöscht!",
+                        "Benutzer entfernen", JOptionPane.OK_CANCEL_OPTION);
 
             } else {
 
-                JOptionPane.showConfirmDialog(null, "Falsche Anmeldedaten!", "Error", JOptionPane.OK_CANCEL_OPTION);
+                JOptionPane.showConfirmDialog(null, "Falsche Anmeldedaten!", "Zugriff verweigert", JOptionPane.OK_CANCEL_OPTION);
 
             }
 

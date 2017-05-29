@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class OrdersFrame {
 
     public static JButton finish = new JButton("Abschließen");
-    public static JTable jtable = new JTable();
+    public static JTable jTable = new JTable();
 
     public static void frameElems() {
         JFrame comp = new JFrame("Aktuelle Bestellungen");
@@ -26,22 +26,21 @@ public class OrdersFrame {
         JPanel buttons = new JPanel(new BorderLayout());
         comp.add(buttons, BorderLayout.NORTH);
         JPanel output = new JPanel(new BorderLayout());
-        JTable orderJTable = jtable;
-        orderJTable.setPreferredScrollableViewportSize(new Dimension(600, 240));
-        orderJTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        orderJTable.getTableHeader().setReorderingAllowed(false);
-        JScrollPane table_scroll = new JScrollPane(orderJTable);
+        jTable.setPreferredScrollableViewportSize(new Dimension(600, 240));
+        jTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTable.getTableHeader().setReorderingAllowed(false);
+        JScrollPane table_scroll = new JScrollPane(jTable);
         output.add(table_scroll, BorderLayout.CENTER);
         comp.add(output, BorderLayout.CENTER);
-        orderJTable.setModel(createJTable_o());
+        jTable.setModel(createJTable_o());
         JLabel name = new JLabel("");
         comp.add(name, BorderLayout.SOUTH);
         buttons.add(finish, BorderLayout.EAST);
         finish.setVisible(false);
         finish.addActionListener(action -> {
-            deleteElems(orderJTable);
+            deleteElems(jTable);
         });
-        orderJTable.addMouseListener(new MouseAdapter() {
+        jTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -51,6 +50,7 @@ public class OrdersFrame {
                     for (int i = 0; i < src.getRowCount(); i++) {
                         boolean selected = (boolean) src.getValueAt(i, src.getSelectedColumn());
                         if (selected) {
+
                             count++;
                         }
                     }
@@ -60,11 +60,8 @@ public class OrdersFrame {
                         finish.setVisible(false);
                     }
                 }
-
             }
         });
-
-
         JButton best = new JButton("Neue Bestellung");
         buttons.add(best, BorderLayout.CENTER);
         best.addActionListener(e -> {
@@ -81,19 +78,17 @@ public class OrdersFrame {
                 orders.add(jTable.getValueAt(i,0).toString());
             }
         }
-        finish.addActionListener(e -> {
-            orders.forEach((string)->{
-                DBConnect db = new DBConnect();
-                db.delete_b(string);
-                jTable.setModel(createJTable_o());
-                });
-            JOptionPane jOptionPane = new JOptionPane();
-            jOptionPane.setOptionType(JOptionPane.OK_CANCEL_OPTION);
-            jOptionPane.add(new JLabel("Die Bestellung wurde abgeschlossen"));
-            jOptionPane.setSize(500,200);
-            jOptionPane.setLocation(600,500);
-            jOptionPane.setVisible(true);
+        orders.forEach((string)->{
+            DBConnect db = new DBConnect();
+            db.delete_b(string);
+            jTable.setModel(createJTable_o());
         });
+        JOptionPane jOptionPane = new JOptionPane();
+        jOptionPane.setOptionType(JOptionPane.OK_CANCEL_OPTION);
+        jOptionPane.add(new JLabel("Die Bestellung wurde abgeschlossen"));
+        jOptionPane.setSize(500,200);
+        jOptionPane.setLocation(600,500);
+        jOptionPane.setVisible(true);
     }
 
     public static DefaultTableModel createJTable_o() {

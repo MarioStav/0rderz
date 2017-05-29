@@ -52,8 +52,8 @@ public class Dia extends JDialog{
 
     public Dia(){
         if (lg.loged_in == ""){
-            JOptionPane.showMessageDialog(null, "Sie müssen sich anmelden, bevor Sie" +
-                    " eine Bestellung hinzufügen können");
+            JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden, " +
+                    "um Bestellungen hinzufügen zu können", "Kein Zugriff", JOptionPane.PLAIN_MESSAGE);
         }else{
             configure(0);
         }
@@ -69,8 +69,8 @@ public class Dia extends JDialog{
 
     public Dia(int in){
         if (lg.loged_in == ""){
-            JOptionPane.showMessageDialog(null, "Sie müssen sich anmelden, bevor Sie" +
-                    " eine Bestellung hinzufügen können");
+            JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden, " +
+                    "um Bestellungen hinzufügen zu können", "Kein Zugriff", JOptionPane.PLAIN_MESSAGE);
         }else{
             this.tableInt = in;
             configure(tableInt);
@@ -252,21 +252,15 @@ public class Dia extends JDialog{
             this.setDefaultCloseOperation(HIDE_ON_CLOSE);
             this.personnr = this.personComboBox.getSelectedItem().toString();
             this.selectedTable = this.tableComboBox.getSelectedItem().toString();
-            System.out.println(this.selectedTable);
-            System.out.println(this.personnr);
-            System.out.println("JA: " + this.isst);
-            System.out.println("NEIN: " + this.issf);
-            System.out.println(this.eatingArrayList.ownToString(this.eatingArrayList));
-            System.out.println(this.drinkingArrayList.ownToString(this.drinkingArrayList));
             DBConnect dbConnect = new DBConnect();
             CurrentTime ct = new CurrentTime();
             TreeMap<String,Integer> eatingTreeMap = this.eatingArrayList.toTreeMap(this.eatingArrayList);
             TreeMap<String,Integer> drinkingTreeMap = this.drinkingArrayList.toTreeMap(this.drinkingArrayList);
             System.out.println(sumOrders(eatingTreeMap,drinkingTreeMap));
-            dbConnect.insert_b(ct.timeString, getTableNr() ,lg.loged_in, this.personnr, getStringFromBool(this.isst)
+            dbConnect.insert_b(ct.timeString, this.getTableNr() ,this.lg.loged_in, this.personnr, getStringFromBool(this.isst)
                     ,toStringTreeMap(eatingTreeMap), toStringTreeMap(drinkingTreeMap),sumOrders(eatingTreeMap,drinkingTreeMap));
             this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            OrdersFrame.jtable.setModel(OrdersFrame.createJTable_o());
+            OrdersFrame.jTable.setModel(OrdersFrame.createJTable_o());
         });
 
         add(jb,gb);

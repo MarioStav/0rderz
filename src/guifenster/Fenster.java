@@ -350,7 +350,7 @@ public class Fenster extends JFrame implements MenuBarSettings {
                                 new String[]{"Ja", "Nein"}, "JA");
                         if (option == 0) {
                             Dia dia = new Dia();
-                        } else {
+                        } else if(option == 1) {
                             if (loginFrame.loged_in == "") {
                                 JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden, " +
                                         "bevor Sie die Bestellungen ansehen können", "Kein Zugriff", JOptionPane.PLAIN_MESSAGE);

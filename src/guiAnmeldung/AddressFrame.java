@@ -42,7 +42,7 @@ public class AddressFrame {
         SpringUtilities.makeGrid(panel, 2, 2, 6, 30, 6, 15);
 
         errorAddress.add(panel, BorderLayout.SOUTH);
-        JButton addButton = new JButton("hinzufügen");
+        JButton addButton = new JButton("Hinzufügen");
         panel.add(addButton);
 
         addButton.addActionListener(action -> {
@@ -52,7 +52,7 @@ public class AddressFrame {
                 //prüfen ob adresse schon in xml datei enthalten ist
                 if (RegistryFrame.appendXML("Addresses.xml", "address", RegistryFrame.toInt(field_PLZ.getText()), field_city.getText())) {
 
-                    JOptionPane.showConfirmDialog(null, "Erfolgreich hinzugefügt!", "Succsess", JOptionPane.OK_CANCEL_OPTION);
+                    JOptionPane.showConfirmDialog(null, "Adresse erfolgreich hinzugefügt!", "Success", JOptionPane.OK_CANCEL_OPTION);
                     errorAddress.setVisible(false);
 
                 } else {
