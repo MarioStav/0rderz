@@ -32,55 +32,16 @@ public class CompleteFrame {
         DBConnect.TableCreate();
         File start_sound = new File("Sounds\\Windows-98.wav");
         playSound(start_sound);
-        JFrame loading = new JFrame();
-        loading.setLayout(new BorderLayout());
-        loading.setSize(600,600);
-        JPanel loading_p = new JPanel();
-        ImageIcon icon = new ImageIcon("Images\\png_floating.png");
-        JLabel icon_label = new JLabel();
-        icon_label.setIcon(icon);
-        loading_p.add(icon_label);
-        loading.add(loading_p, BorderLayout.NORTH);
+        ThreadLoad thread = new ThreadLoad();
+        thread.start();
+        synchronized (thread) {
 
-        /*
-        JPanel gif_p = new JPanel();
-        URL url = CompleteFrame.class.getResource("loading.gif");
-        ImageIcon loadgif = new ImageIcon(url);
-        JLabel gif_label = new JLabel();
-        gif_label.setIcon(loadgif);
-        gif_p.add(gif_label);
-        loading.add(gif_p, BorderLayout.SOUTH);
-        */
-        JPanel bar = new JPanel();
-        int max = 0;
-        JProgressBar progressBar = new JProgressBar(0,20);
-        bar.add(progressBar);
-        loading.add(bar, BorderLayout.SOUTH);
-        loading.setResizable(false);
-        loading.setLocation(700,300);
-        loading.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        loading.setVisible(true);
-        while (max <= 20) {
-
-            progressBar.setValue(max);
-            max++;
             try {
-                Thread.sleep(300);
+                thread.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-        System.out.println(max);
-        if (max > 20) {
 
-            loading.setVisible(false);
-
-        }
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         frameElems();
         RegistryFrame.createXML("addresses", "address", "Addresses.xml");
