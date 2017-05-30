@@ -1,4 +1,5 @@
-/**@author Mario \n @since (datum) */
+/**@author Mario \n @since (datum)
+ * @description this dialog asks the servant for adding a new Order to the JTable. Moreover it prints out the JTable*/
 
 package guiPackage;
 
@@ -17,9 +18,6 @@ import java.util.TreeMap;
 
 import static java.lang.Math.round;
 
-/**
- * Created by Mario on 09.05.2017.
- */
 public class OrderDialog extends JDialog{
 
     //all necessary data
@@ -52,7 +50,7 @@ public class OrderDialog extends JDialog{
         return personList;
     }
 
-    //artificial get method for returning the list with the meals
+    /**artificial get method for returning the list with the meals*/
     public String[] generateEatingList(){
         String[] EatingList = {"Pizza", "Schnitzel", "Salat" , "Burger" , "Pommes"};
         return EatingList;
@@ -69,6 +67,7 @@ public class OrderDialog extends JDialog{
     }
 
     //artificial get method for returning the list with the tables
+    /**@return  tableList is the list with all the tables in it; needed to initialize the JComboBox*/
     public String[] generateTableList(){
         String[] tableList = new String[11];
         for (int i = 0; i < 11; i++) {
@@ -78,6 +77,7 @@ public class OrderDialog extends JDialog{
     }
 
     //constructor with the selected table as default; checks if someone is logged in
+    /**@param in the selected table*/
     public OrderDialog(int in){
         if (lg.loged_in == ""){
             JOptionPane.showConfirmDialog(null, "Sie müssen sich zuerst anmelden, " +
@@ -209,6 +209,7 @@ public class OrderDialog extends JDialog{
     }
 
     //returning the string of a treemap; looking like this -> 2x Pizza,...
+    /**@return  help is the treemap as a string*/
     public String toStringTreeMap(TreeMap<String,Integer> treeMap){
         String help = "";
         for (Map.Entry<String, Integer> entry : treeMap.entrySet()) {
@@ -220,7 +221,7 @@ public class OrderDialog extends JDialog{
         return help;
     }
 
-    //calculates the costs of an order
+    /**calculates the costs of an order*/
     public double sumOrders(TreeMap<String,Integer> eatingTreeMap, TreeMap<String,Integer> drinkingTreeMap){
         //prices and guts are fixed. The servants can't decide whether the restaurant owns something or not.
         double erg = 0;

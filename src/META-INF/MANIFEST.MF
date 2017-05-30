@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: C:\Users\Mario\IdeaProjects\G2B\src\guiPackage\Fenster
-Main-Class: Fenster
+Main-Class: guiPackage.MainFrame
 

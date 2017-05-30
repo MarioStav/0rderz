@@ -1,4 +1,5 @@
-/**@author Mario \n @since (datum) */
+/**@author Mario \n @since (datum)
+ * @description my own Array List. I need it to calculate and generate TreeMaps*/
 package orderPackage;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.TreeMap;
 import javax.swing.*;
 
 public class UtilArrayList extends ArrayList{
-
+    /**@param list the list that initializes the arrayList*/
     public void initList(UtilArrayList utilArrayList, String[] list){
         for (int i = 0; i < list.length; i++) {
             utilArrayList.add(list[i-1]);

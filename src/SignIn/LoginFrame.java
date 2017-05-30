@@ -60,7 +60,7 @@ public class LoginFrame extends CompleteFrame {
             String svnr = svnr_field.getText();
             char[] pw = pw_field.getPassword();
             String query_svnr = "SELECT SVNr FROM Kellner WHERE SVNr = " + svnr;
-            String url = "jdbc:sqlite:database/databasetest.db";
+            String url = "jdbc:sqlite:../databasetest.db";
 
             if (RegistryFrame.isNumber(svnr) && DeleteFrame.inDB(svnr)) {
 

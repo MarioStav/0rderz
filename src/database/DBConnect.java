@@ -13,7 +13,7 @@ public class DBConnect {
 
         try {
 
-            String url = "jdbc:sqlite:database/databasetest.db";
+            String url = "jdbc:sqlite:../databasetest.db";
             conn = DriverManager.getConnection(url);
             System.out.println("Connection to SQLite has been established.");
 
@@ -64,7 +64,7 @@ public class DBConnect {
     public static void TableCreate() {
 
         // SQLite connection string
-        String url = "jdbc:sqlite:database/databasetest.db";
+        String url = "jdbc:sqlite:../databasetest.db";
         // SQL statement for creating a new table
         String t_kellner = "CREATE TABLE IF NOT EXISTS Kellner (\n"
                 + "	SVNr varchar PRIMARY KEY,\n"
@@ -103,7 +103,7 @@ public class DBConnect {
 
     public boolean insert_k(String SVNr, String vname, String fname, String pw, int PLZ, String Stadt) {
         //inserting into the servant table
-        String url = "jdbc:sqlite:database/databasetest.db";
+        String url = "jdbc:sqlite:../databasetest.db";
         String sql = "INSERT INTO Kellner(SVNr, vname, fname, pw, PLZ, Stadt) VALUES(?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(url);
@@ -129,7 +129,7 @@ public class DBConnect {
 
     public void insert_b(String Zeit, int TischNr, String SVNr, String PersonNr, String Reservierung, String Essen, String Getraenk, double Preis) {
         //inserting into the orders table
-        String url = "jdbc:sqlite:database/databasetest.db";
+        String url = "jdbc:sqlite:../databasetest.db";
         String sql = "INSERT INTO Bestellung(Zeit, TischNr, SVNr, PersonNr, Reservierung, Essen, Getraenk, Preis) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(url);
@@ -155,7 +155,7 @@ public class DBConnect {
 
     public void delete_k(String SVNr) {
         //deleting a row in the servant table
-        String url = "jdbc:sqlite:database/databasetest.db";
+        String url = "jdbc:sqlite:../databasetest.db";
         String sql = "DELETE FROM Kellner WHERE SVNr = ?";
 
         try (Connection conn = DriverManager.getConnection(url);
@@ -175,7 +175,7 @@ public class DBConnect {
 
     public void delete_b(String Zeit) {
         //deleting a row in the order table
-        String url = "jdbc:sqlite:database/databasetest.db";
+        String url = "jdbc:sqlite:../databasetest.db";
         String sql = "DELETE FROM Bestellung WHERE Zeit = ?";
 
         try (Connection conn = DriverManager.getConnection(url);

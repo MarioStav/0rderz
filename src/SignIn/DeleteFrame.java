@@ -1,4 +1,6 @@
-/**@author Christoph \n @since (datum) */
+/**@author Christoph \n @since (datum)
+ * @description A class that creates a frame. In this Frame servants can and
+ * deleted but just with authorized admin access*/
 package SignIn;
 
 import database.DBConnect;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 
 public class DeleteFrame extends CompleteFrame {
 
+    /**@link del_button*/  /**@param kellner is the JTable with the registrated servants*/
     //default creating method for the frame
     public void deleteElems(JTable kellner, JLabel name, JButton del_button) {
         
@@ -88,10 +91,10 @@ public class DeleteFrame extends CompleteFrame {
     }
 
     //select method in sql
+    /**@param svnr the social securitiy number. here is tested if it is contained in a the jtable*/
     public static boolean inDB(String svnr) {
-
         String query = "SELECT SVNr FROM Kellner WHERE SVNr = " + svnr;
-        String url = "jdbc:sqlite:database/databasetest.db";
+        String url = "jdbc:sqlite:../databasetest.db";
         if (RegistryFrame.isSVNR(svnr)) {
 
 
@@ -100,7 +103,6 @@ public class DeleteFrame extends CompleteFrame {
                  ResultSet rs = stmt.executeQuery(query)) {
 
                 if (rs.next()) {
-
                     return true;
 
                 } else {

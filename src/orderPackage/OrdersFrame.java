@@ -1,4 +1,5 @@
-/**@author Mario \n @since (datum) */
+/**@author Mario \n @since (datum)
+ * @description Orderframe itsef; shows all orders*/
 package orderPackage;
 
 import database.DBConnect;
@@ -19,7 +20,7 @@ public class OrdersFrame extends JFrame{
     public static JTable jTable = new JTable();
 
     public void frameElems() {
-        //main constructor to create the frame that shows the order jtable
+        /**main constructor to create the frame that shows the order jtable */
         this.setTitle("Aktuelle Bestellungen");
         this.setSize(700, 500);
         this.setResizable(true);
@@ -95,7 +96,7 @@ public class OrdersFrame extends JFrame{
         //creatin the JTable with the orders.
         String[] column_names = {"Zeit", "TischNr", "SVNr", "PersonNr", "Reservierung", "Essen", "Getraenk", "Preis",
                 "Abgeschlossen"};
-        String url = "jdbc:sqlite:database/databasetest.db";
+        String url = "jdbc:sqlite:../databasetest.db";
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Zeit", "TischNr", "SVNr", "PersonenAnzahl",
                 "Reservierung", "Essen", "Getraenk", "Preis", "Abgeschlossen"}, 0) {
             @Override

@@ -1,4 +1,6 @@
-/**@author Mario \n @since (datum) */
+/**@author Mario \n @since (datum)
+ * @description the main Frame; it has the structure of the restaurant in it and it also contains 3 menupoints: signing in,
+ * allorders and an about sideframe*/
 
 package guiPackage;
 
@@ -312,6 +314,7 @@ public class MainFrame extends JFrame implements MenuBarSettings {
         }
     }
 
+    /**@param s is the title of the JMenu */
     public void addMenu(String s) {
         //Adds a new Menu from the right side
         JMenu menu = new JMenu(s);

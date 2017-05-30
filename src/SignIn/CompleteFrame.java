@@ -1,4 +1,5 @@
-/**@author Christoph \n @since (datum) */
+/**@author Christoph \n @since (datum)
+ * @description the whole frame that shows up if you press on sign in. it includes registry, login, delete, addresses and logout*/
 
 package SignIn;
 
@@ -10,11 +11,11 @@ import java.awt.event.MouseEvent;
 import java.sql.*;
 
 public class CompleteFrame extends JFrame {
-    //important data
+    /**important data*/
     static public JButton del = new JButton("Löschen");
     static public String loged_in = LoginFrame.loged_in;
 
-    //default creating method for the frame
+    /**default creating method for the frame*/
     public static void frameElems() {
 
         JFrame comp = new JFrame("Anmeldung");
@@ -60,7 +61,7 @@ public class CompleteFrame extends JFrame {
 
         });
 
-        //mouse listener added to the servant table
+        /**mouse listener added to the servant table*/
         kellner.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -128,11 +129,11 @@ public class CompleteFrame extends JFrame {
 
     }
 
-    //"drawing" the servant table
+    /**"drawing" the servant table*/
     public static DefaultTableModel createJTable_k() {
 
         String[] column_names = {"SVNr", "vname", "fname", "PLZ", "Stadt", "Auswahl"};
-        String url = "jdbc:sqlite:database/databasetest.db";
+        String url = "jdbc:sqlite:../databasetest.db";
         DefaultTableModel model = new DefaultTableModel(new Object[]{"SVNr", "Vorname", "Nachname", "PLZ", "Stadt", "Auswahl"}, 0) {
 
             @Override
@@ -179,10 +180,6 @@ public class CompleteFrame extends JFrame {
 
 
             }
-
-            rs.close();
-            stmt.close();
-            conn.close();
 
         } catch (SQLException e) {
 

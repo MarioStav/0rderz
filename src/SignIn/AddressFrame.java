@@ -1,4 +1,5 @@
-/**@author Christoph \n @since (datum) */
+/**@author Christoph \n @since (datum)
+ * @description the address frame. it shows up if the address, a servant wants to inregistrate with, is'nt in the database*/
 
 package SignIn;
 
@@ -7,7 +8,7 @@ import java.awt.*;
 
 public class AddressFrame extends CompleteFrame {
 
-    //default constructor method to create the adrress frame which asks for uploading a new address to the database
+    /**default constructor method to create the adrress frame which asks for uploading a new address to the database*/
     public void createAddressFrame(){
 
         this.setTitle("Adresse Hinzufügen");
